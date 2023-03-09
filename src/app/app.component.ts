@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `<h1>Hi</h1>
+
+  <div>
+    <app-loadoff></app-loadoff>
+  </div>
+  `
 })
-export class AppComponent {
-  title = 'ngneat-query';
-}
+export class AppComponent {}

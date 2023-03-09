@@ -5,7 +5,20 @@
   "projects": {
     "ngneat-query": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "changeDetection": "OnPush",
+          "inlineStyle": true,
+          "inlineTemplate": true,
+          "skipTests": true,
+          "standalone": true,
+          "flat": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true,
+          "flat": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
