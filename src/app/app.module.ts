@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import {LoadoffComponent} from "./loadoff/loadoff.component";
 import {HttpClientModule} from "@angular/common/http";
+import {QueryComponent} from "./query/query.component";
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     BrowserModule,
     LoadoffComponent,
-    HttpClientModule
+    HttpClientModule,
+    QueryComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
