@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {TodosService} from "../api/todos.service";
+import {CommonModule} from '@angular/common';
 import {QueryTodosService} from "./query-todos.service";
 
 @Component({

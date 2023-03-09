@@ -7,6 +7,7 @@ import {LoadoffTodosService} from "./loadoff-todos.service";
   standalone: true,
   imports: [CommonModule],
   template: `
+    <button (click)="reload()">REFRESH</button>
     <ng-container *ngIf="todos$ | async as todos">
       <ul *ngIf="todos.res">
         <li *ngFor="let todo of todos.res">{{todo.id}} - {{todo.title}} - {{todo.completed}}</li>
@@ -22,4 +23,8 @@ export class LoadoffComponent {
   loadoffService = inject(LoadoffTodosService);
 
   todos$ = this.loadoffService.getTodos();
+
+  reload() {
+    this.loadoffService.refresh();
+  }
 }
