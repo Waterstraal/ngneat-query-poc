@@ -7,18 +7,24 @@ import {QueryTodosService} from "./query-todos.service";
   standalone: true,
   imports: [CommonModule],
   template: `
+    <button (click)="reload()">REFRESH</button>
+
     <ng-container *ngIf="todos$ | async as todos">
-      <ul *ngIf="todos.data">
+      <ul *ngIf="todos.fetchStatus !== 'fetching' && todos.data">
         <li *ngFor="let todo of todos.data">{{todo.id}} - {{todo.title}} - {{todo.completed}}</li>
       </ul>
-      <h1 *ngIf="todos.isLoading">Loading....</h1>
+      <h1 *ngIf="todos.fetchStatus === 'fetching'">Loading....</h1>
       <p *ngIf="todos.isError">Error</p>
     </ng-container>
   `,
-  styles: [
-  ],
+  styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QueryComponent {
-  todos$ = inject(QueryTodosService).getTodos().result$;
+  queryTodosService = inject(QueryTodosService);
+  todos$ = this.queryTodosService.getTodos().result$;
+
+  reload() {
+    this.queryTodosService.refresh();
+  }
 }
