@@ -9,9 +9,13 @@ import {QueryTodosService} from "./query-todos.service";
   template: `
     <button (click)="reload()">REFRESH</button>
 
+    <div *ngIf="activeTodo$ | async as activeTodo">
+      {{ activeTodo.data?.title }}
+    </div>
+
     <ng-container *ngIf="todos$ | async as todos">
       <ul *ngIf="todos.fetchStatus !== 'fetching' && todos.data">
-        <li *ngFor="let todo of todos.data">{{todo.id}} - {{todo.title}} - {{todo.completed}}</li>
+        <li (click)="setId(todo.id)" *ngFor="let todo of todos.data">{{todo.id}} - {{todo.title}} - {{todo.completed}}</li>
       </ul>
       <h1 *ngIf="todos.fetchStatus === 'fetching'">Loading....</h1>
       <p *ngIf="todos.isError">Error</p>
@@ -22,9 +26,14 @@ import {QueryTodosService} from "./query-todos.service";
 })
 export class QueryComponent {
   queryTodosService = inject(QueryTodosService);
-  todos$ = this.queryTodosService.getTodos().result$;
+  todos$ = this.queryTodosService.getTodos();
+  activeTodo$ = this.queryTodosService.getActiveTodo();
 
   reload() {
     this.queryTodosService.refresh();
+  }
+
+  setId(id: number) {
+    this.queryTodosService.setActiveId(id);
   }
 }

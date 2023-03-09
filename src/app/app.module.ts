@@ -20,7 +20,7 @@ import {provideQueryClientOptions} from "@ngneat/query";
   providers: [
     provideQueryClientOptions({
       defaultOptions: {
-        queries: {refetchOnWindowFocus: false}
+        queries: {refetchOnWindowFocus: false, }
       },
     }),],
   bootstrap: [AppComponent]
