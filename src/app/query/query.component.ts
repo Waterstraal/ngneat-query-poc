@@ -8,14 +8,16 @@ import {QueryTodosService} from "./query-todos.service";
   imports: [CommonModule],
   template: `
     <button (click)="reload()">REFRESH</button>
+    <button (click)="add()">ADD</button>
 
     <div *ngIf="activeTodo$ | async as activeTodo">
-      {{ activeTodo.data?.title }}
+      selected: {{ activeTodo.data?.title }}
     </div>
 
     <ng-container *ngIf="todos$ | async as todos">
       <ul *ngIf="todos.fetchStatus !== 'fetching' && todos.data">
-        <li (click)="setId(todo.id)" *ngFor="let todo of todos.data">{{todo.id}} - {{todo.title}} - {{todo.completed}}</li>
+        <li (click)="setId(todo.id)" *ngFor="let todo of todos.data">{{todo.id}} - {{todo.title}}
+          - {{todo.completed}}</li>
       </ul>
       <h1 *ngIf="todos.fetchStatus === 'fetching'">Loading....</h1>
       <p *ngIf="todos.isError">Error</p>
@@ -35,5 +37,10 @@ export class QueryComponent {
 
   setId(id: number) {
     this.queryTodosService.setActiveId(id);
+  }
+
+  add() {
+     this.queryTodosService.addTodo().mutate({id: 0, title: '', userId: 123, completed: false});
+    // this.queryTodosService.addTodo2({id: 0, title: '', userId: 123, completed: false});
   }
 }

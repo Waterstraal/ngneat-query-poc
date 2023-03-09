@@ -1,7 +1,8 @@
 import {inject, Injectable} from '@angular/core';
-import {QueryClientService, UseQuery} from "@ngneat/query";
+import {QueryClientService, UseMutation, UseQuery} from "@ngneat/query";
 import {TodosService} from "../api/todos.service";
-import {Subject, switchMap} from "rxjs";
+import {Subject, switchMap, tap} from "rxjs";
+import {Todo} from "../models/todo.model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class QueryTodosService {
   private todosService = inject(TodosService);
   private useQuery = inject(UseQuery);
   private queryClient = inject(QueryClientService);
+  private useMutation = inject(UseMutation);
 
   private activeId$$: Subject<number> = new Subject<number>();
 
@@ -28,5 +30,21 @@ export class QueryTodosService {
 
   setActiveId(id: number) {
     this.activeId$$.next(id);
+  }
+
+  // returns new fn with mutate
+  addTodo() {
+    return this.useMutation((todo: Todo) => {
+      return this.todosService.addTodo(todo).pipe(tap((newTodo) => {
+        this.queryClient.invalidateQueries(['todos']);
+      }));
+    });
+  }
+
+  //
+  addTodo2(todo: Todo) {
+    return this.todosService.addTodo(todo).subscribe(() => {
+      this.queryClient.invalidateQueries(['todos']);
+    });
   }
 }
